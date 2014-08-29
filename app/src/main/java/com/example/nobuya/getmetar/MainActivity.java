@@ -13,18 +13,16 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.view.View;
-import android.os.AsyncTask;
+// import android.os.AsyncTask;
 
 public class MainActivity extends Activity {
 
     private EditText editTextCCCC;
     private String resultMessageBuffer;
-    private Boolean isFirst = true;
     private static int MESSAGE_HISTORY_MAX = 5;
     private int numMessages = 0;
     private String resultMessage[] = new String[MESSAGE_HISTORY_MAX];
     private int head = 0;
-    private int tail = 0;
 
 
     public void addResultMessage(String msg) {
@@ -39,10 +37,14 @@ public class MainActivity extends Activity {
             newMessage = msg + "\n---\n" + resultMessageBuffer;
         } else { // if (numMessages > MESSAGE_HISTORY_MAX)
             StringBuffer stringBuffer = new StringBuffer();
-            for (int i = curr; i >= 0; i--)
-                stringBuffer.append(resultMessage[i] + "\n---\n");
-            for (int i = MESSAGE_HISTORY_MAX - 1; i > curr; i--)
-                stringBuffer.append(resultMessage[i] + "\n---\n");
+            for (int i = curr; i >= 0; i--) {
+                stringBuffer.append(resultMessage[i]);
+                stringBuffer.append("\n---\n");
+            }
+            for (int i = MESSAGE_HISTORY_MAX - 1; i > curr; i--) {
+                stringBuffer.append(resultMessage[i]);
+                stringBuffer.append("\n---\n");
+            }
             newMessage = stringBuffer.toString();
         }
         resultMessageBuffer = newMessage;
