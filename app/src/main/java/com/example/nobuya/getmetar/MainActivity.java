@@ -3,9 +3,13 @@ package com.example.nobuya.getmetar;
 import android.app.Activity;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.view.View;
@@ -97,7 +101,50 @@ public class MainActivity extends Activity {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             return true;
+        } else if (id == R.id.action_about) {
+            Toast.makeText(MainActivity.this, "About...",
+                           Toast.LENGTH_LONG).show();
+            handleAboutMenu();
+            return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private PopupWindow popupWindow;
+
+    private void handleAboutMenu() {
+        popupWindow = new PopupWindow(MainActivity.this);
+        View popupView = getLayoutInflater().inflate(R.layout.popup_layout, null);
+        popupView.findViewById(R.id.close_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (popupWindow.isShowing())
+                    popupWindow.dismiss();
+            }
+        });
+        popupWindow.setContentView(popupView);
+        // background
+        popupWindow.setBackgroundDrawable(getResources().getDrawable(R.drawable.popup_background));
+
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setFocusable(true);
+
+        // size (width: 200dp)
+        float width = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200, getResources().getDisplayMetrics());
+        popupWindow.setWindowLayoutMode((int) width, WindowManager.LayoutParams.WRAP_CONTENT);
+        popupWindow.setWidth((int) width);
+        popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+
+        // centering
+        popupWindow.showAtLocation(findViewById(R.id.metar_at),
+                Gravity.CENTER, 0, 0);
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (popupWindow != null && popupWindow.isShowing()) {
+            popupWindow.dismiss();
+        }
+        super.onDestroy();
     }
 }
