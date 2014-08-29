@@ -9,10 +9,10 @@ import android.widget.Toast;
  * Created by nobuya on 2014/08/28.
  */
 public class AsyncGetMetar extends AsyncTask<String, Void, String> {
-    private MainActivity mainActivity;
+    private GetMetarActivity activity;
 
-    public AsyncGetMetar(MainActivity activity) {
-        this.mainActivity = activity;
+    public AsyncGetMetar(GetMetarActivity _activity) {
+        this.activity = _activity;
     }
 
     @Override
@@ -25,14 +25,11 @@ public class AsyncGetMetar extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String result) { // executed by Main Thread
         String msg = "RESULT: " + result;
-        Toast.makeText(this.mainActivity,
-                msg,
-                Toast.LENGTH_LONG).show();
-        /*
-        TextView textView = (TextView)mainActivity.findViewById(R.id
+        Toast.makeText(this.activity, msg, Toast.LENGTH_LONG).show();
+        TextView textView = (TextView)activity.findViewById(R.id
                 .result_message);
-        textView.setText(result); */
-        mainActivity.addResultMessage(result);
+        textView.setText(result);
+        activity.setResultMessage(result);
     }
 
 }

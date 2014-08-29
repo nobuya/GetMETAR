@@ -1,22 +1,22 @@
 package com.example.nobuya.getmetar;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.view.View;
-// import android.os.AsyncTask;
 
-public class MainActivity extends GetMetarActivity {
+/**
+ * Created by nobuya on 2014/08/29.
+ */
+public class SecondActivity extends GetMetarActivity {
 
     private EditText editTextCCCC;
     private String resultMessageBuffer;
@@ -24,18 +24,6 @@ public class MainActivity extends GetMetarActivity {
     private int numMessages = 0;
     private String resultMessage[] = new String[MESSAGE_HISTORY_MAX];
     private int head = 0;
-
-    private int windVelocity;
-
-    public int getWindVelocity() {
-        return windVelocity;
-    }
-
-    private int windDirection;
-
-    public int getWindDirection() {
-        return windDirection;
-    }
 
     public void setResultMessage(String msg) {
         String newMessage;
@@ -61,6 +49,10 @@ public class MainActivity extends GetMetarActivity {
         }
         resultMessageBuffer = newMessage;
         updateResultMessage();
+        String windStr = GetMetar.getWind(msg);
+        if (!windStr.equals("???")) {
+            updateGraphics(windStr);
+        }
     }
 
     private void updateResultMessage() {
@@ -68,11 +60,33 @@ public class MainActivity extends GetMetarActivity {
         textView.setText(resultMessageBuffer);
     }
 
+    private int windVelocity;
+
+    public int getWindVelocity() {
+        return windVelocity;
+    }
+
+    private int windDirection;
+
+    public int getWindDirection() {
+        return windDirection;
+    }
+
+    private void updateGraphics(String windStr) { // 07011KT
+        windVelocity = ((windStr.charAt(3) == '0') ?
+                (windStr.charAt(4) - '0') :
+                (windStr.charAt(3) - '0') * 10 + (windStr.charAt(4) - '0'));
+        windDirection =
+                (windStr.charAt(0) - '0') * 100 +
+                        (windStr.charAt(1) - '0') * 10 +
+                        (windStr.charAt(2) - '0');
+        findViewById(R.id.graphics_view).invalidate();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_second);
 
         // enable scrolling result message area
         TextView textView = (TextView)findViewById(R.id.result_message);
@@ -80,6 +94,7 @@ public class MainActivity extends GetMetarActivity {
 
         editTextCCCC = (EditText)findViewById(R.id.editTextCCCC);
         resultMessageBuffer = "(message)";
+
     }
 
     public void onClick(View view) {
@@ -95,9 +110,9 @@ public class MainActivity extends GetMetarActivity {
         AsyncGetMetar asyncGetMetar = new AsyncGetMetar(this);
         asyncGetMetar.execute(cccc);
         String msg = "Getting " + cccc + "...";
-        Toast.makeText(MainActivity.this,
-                       msg,
-                       Toast.LENGTH_LONG).show();
+        Toast.makeText(SecondActivity.this,
+                msg,
+                Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -115,21 +130,13 @@ public class MainActivity extends GetMetarActivity {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             return true;
+    /*
         } else if (id == R.id.action_about) {
-            Toast.makeText(MainActivity.this, "About...",
+            Toast.makeText(SecondActivity.this, "About...",
                     Toast.LENGTH_LONG).show();
             handleAboutMenu();
             return true;
-        } else if (id == R.id.action_debug) {
-            Toast.makeText(MainActivity.this, "Debug...",
-                    Toast.LENGTH_LONG).show();
-            //handleDebugMenu();
-            return true;
-        } else if (id == R.id.action_develop) {
-            Toast.makeText(MainActivity.this, "Develop...",
-                    Toast.LENGTH_LONG).show();
-            handleDevelopMenu();
-            return true;
+    */
         }
         return super.onOptionsItemSelected(item);
     }
@@ -137,7 +144,7 @@ public class MainActivity extends GetMetarActivity {
     private PopupWindow popupWindow;
 
     private void handleAboutMenu() {
-        popupWindow = new PopupWindow(MainActivity.this);
+        popupWindow = new PopupWindow(SecondActivity.this);
         View popupView = getLayoutInflater().inflate(R.layout.popup_layout, null);
         popupView.findViewById(R.id.close_button).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -162,11 +169,6 @@ public class MainActivity extends GetMetarActivity {
         // centering
         popupWindow.showAtLocation(findViewById(R.id.metar_at),
                 Gravity.CENTER, 0, 0);
-    }
-
-    private void handleDevelopMenu() {
-        Intent intent = new Intent(MainActivity.this, SecondActivity.class);
-        startActivity(intent);
     }
 
     @Override

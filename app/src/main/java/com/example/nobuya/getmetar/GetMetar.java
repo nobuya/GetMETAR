@@ -190,6 +190,19 @@ TR VALIGN="top">
         return "???";
     }
 
+    static String getWind(String metar) {
+        if (metar.length() >= 20) {
+            char c12 = metar.charAt(12);
+            char c20 = metar.charAt(20);
+            if (c12 == ' ' && c20 == ' ') {
+                // 012345678901234567890
+                // RJTT 290900Z 07011KT
+                return metar.substring(13, 20); // 07011KT
+            }
+        }
+        return "???";
+    }
+
     private final void error(String msg) {
         System.out.println(msg);
         //System.exit(1);

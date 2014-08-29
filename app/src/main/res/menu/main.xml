@@ -9,4 +9,12 @@
           android:title="@string/action_about"
           android:orderInCategory="100"
           android:showAsAction="never" />
+    <item android:id="@+id/action_debug"
+          android:title="(Debug)"
+          android:orderInCategory="8900"
+          android:showAsAction="never" />
+    <item android:id="@+id/action_develop"
+          android:title="(Develop)"
+          android:orderInCategory="900"
+          android:showAsAction="never" />
 </menu>

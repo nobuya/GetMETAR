@@ -8,4 +8,5 @@
     <string name="action_about">About...</string>
     <string name="metar_at">METAR at:</string>
     <string name="result_message">(result)</string>
+    <string name="title_activity_second">GetMETAR (2nd Activity)</string>
 </resources>
