@@ -9,4 +9,9 @@ public abstract class GetMetarActivity extends Activity {
     abstract void setResultMessage(String msg);
     abstract int getWindVelocity();
     abstract int getWindDirection();
+    abstract int getWindDirectionV1();
+    abstract int getWindDirectionV2();
+    boolean isVariableWind() {
+        return getWindDirectionV1() != getWindDirectionV2();
+    }
 }

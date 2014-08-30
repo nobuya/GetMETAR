@@ -26,15 +26,23 @@ public class MainActivity extends GetMetarActivity {
     private int head = 0;
 
     private int windVelocity;
-
     public int getWindVelocity() {
         return windVelocity;
     }
 
     private int windDirection;
-
     public int getWindDirection() {
         return windDirection;
+    }
+
+    private int windDirectionV1;
+    public int getWindDirectionV1() {
+        return windDirectionV1;
+    }
+
+    private int windDirectionV2;
+    public int getWindDirectionV2() {
+        return windDirectionV2;
     }
 
     public void setResultMessage(String msg) {

@@ -195,9 +195,14 @@ TR VALIGN="top">
             char c12 = metar.charAt(12);
             char c20 = metar.charAt(20);
             if (c12 == ' ' && c20 == ' ') {
-                // 012345678901234567890
-                // RJTT 290900Z 07011KT
-                return metar.substring(13, 20); // 07011KT
+                /* TODO: 21016G24KT (Gusts) */
+                // 01234567890123456789012345678
+                // RJTT 290900Z 07011KT 290V350
+                if (metar.length() >= 28 && metar.charAt(24) == 'V') {
+                    return metar.substring(13, 28); // 07011KT 290V350
+                } else {
+                    return metar.substring(13, 20); // 07011KT
+                }
             }
         }
         return "???";

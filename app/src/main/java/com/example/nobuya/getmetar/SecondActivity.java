@@ -61,15 +61,22 @@ public class SecondActivity extends GetMetarActivity {
     }
 
     private int windVelocity;
-
     public int getWindVelocity() {
         return windVelocity;
     }
 
     private int windDirection;
-
     public int getWindDirection() {
         return windDirection;
+    }
+
+    private int windDirectionV1;
+    public int getWindDirectionV1() {
+        return windDirectionV1;
+    }
+    private int windDirectionV2;
+    public int getWindDirectionV2() {
+        return windDirectionV2;
     }
 
     private void updateGraphics(String windStr) { // 07011KT
@@ -80,6 +87,20 @@ public class SecondActivity extends GetMetarActivity {
                 (windStr.charAt(0) - '0') * 100 +
                         (windStr.charAt(1) - '0') * 10 +
                         (windStr.charAt(2) - '0');
+        // 0123456789012345
+        // 08011KT 110V140
+        if (windStr.length() > 14 && windStr.charAt(11) == 'V') {
+            // Variable wind direction
+            windDirectionV1 = (windStr.charAt(8) - '0') * 100 +
+                    (windStr.charAt(9) - '0') * 10 +
+                    (windStr.charAt(10) - '0');
+            windDirectionV2 = (windStr.charAt(12) - '0') * 100 +
+                    (windStr.charAt(13) - '0') * 10 +
+                    (windStr.charAt(14) - '0');
+        } else {
+            windDirectionV1 = 0;
+            windDirectionV2 = 0;
+        }
         findViewById(R.id.graphics_view).invalidate();
     }
 
