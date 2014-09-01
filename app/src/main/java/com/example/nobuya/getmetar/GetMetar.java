@@ -198,6 +198,7 @@ TR VALIGN="top">
                 /* TODO: 21016G24KT (Gusts) */
                 // 01234567890123456789012345678
                 // RJTT 290900Z 07011KT 290V350
+                // RJTT 010500Z VRB03KT 9999
                 if (metar.length() >= 28 && metar.charAt(24) == 'V') {
                     return metar.substring(13, 28); // 07011KT 290V350
                 } else {

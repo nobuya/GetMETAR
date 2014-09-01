@@ -1,5 +1,6 @@
 package com.example.nobuya.getmetar;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.TypedValue;
@@ -36,14 +37,16 @@ public class SecondActivity extends GetMetarActivity {
     }
 
     private void updateGraphics(String windStr) { // 07011KT
+        // 01234567   01234567
+        // 07011KT    VRB03KT
         int windVelocity = ((windStr.charAt(3) == '0') ?
                 (windStr.charAt(4) - '0') :
                 (windStr.charAt(3) - '0') * 10 + (windStr.charAt(4) - '0'));
         setWindVelocity(windVelocity);
-        int windDirection =
+        int windDirection = ((windStr.charAt(0) == 'V') ? 999 :
                 (windStr.charAt(0) - '0') * 100 +
                         (windStr.charAt(1) - '0') * 10 +
-                        (windStr.charAt(2) - '0');
+                        (windStr.charAt(2) - '0'));
         setWindDirection(windDirection);
 
         // 0123456789012345
@@ -91,6 +94,11 @@ public class SecondActivity extends GetMetarActivity {
 
     private void getMetar() {
         String cccc = editTextCCCC.getText().toString();
+        String airportText = AirportDB.getAirportText(cccc);
+        Intent intent = getIntent();
+        TextView textView = (TextView)findViewById(R.id.airport_text);
+        textView.setText(airportText);
+        //
         AsyncGetMetar asyncGetMetar = new AsyncGetMetar(this);
         asyncGetMetar.execute(cccc);
         String msg = "Getting " + cccc + "...";
@@ -102,7 +110,7 @@ public class SecondActivity extends GetMetarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.second, menu);
         return true;
     }
 
@@ -114,13 +122,16 @@ public class SecondActivity extends GetMetarActivity {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             return true;
-    /*
         } else if (id == R.id.action_about) {
             Toast.makeText(SecondActivity.this, "About...",
                     Toast.LENGTH_LONG).show();
             handleAboutMenu();
             return true;
-    */
+        } else if (id == R.id.action_develop) {
+            Toast.makeText(SecondActivity.this, "Exit develop mode...",
+                    Toast.LENGTH_LONG).show();
+            handleDevelopMenu();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -153,6 +164,11 @@ public class SecondActivity extends GetMetarActivity {
         // centering
         popupWindow.showAtLocation(findViewById(R.id.metar_at),
                 Gravity.CENTER, 0, 0);
+    }
+
+    private void handleDevelopMenu() {
+        Intent intent = new Intent(SecondActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 
     @Override

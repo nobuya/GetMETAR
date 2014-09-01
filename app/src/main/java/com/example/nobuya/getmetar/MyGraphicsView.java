@@ -116,7 +116,8 @@ public class MyGraphicsView extends View {
                 }
             }
             int windDir = activity.getWindDirection();
-            drawWindDirection1(canvas, windDir, cx, cy, 255);
+            if (windDir != 999) // VRBxxKT
+                drawWindDirection1(canvas, windDir, cx, cy, 255);
         }
     }
 
