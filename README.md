@@ -7,6 +7,9 @@ Android App to get METAR message
 
 (History)
 ---------
+2014-09-01
+- added graphics for variable wind direction
+
 2014-08-30
 - changed graphics of wind
 - added code for variable wind direction

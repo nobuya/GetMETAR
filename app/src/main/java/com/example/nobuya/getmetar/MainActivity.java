@@ -17,14 +17,15 @@ import android.view.View;
 // import android.os.AsyncTask;
 
 public class MainActivity extends GetMetarActivity {
-
+/*
     private EditText editTextCCCC;
     private String resultMessageBuffer;
     private static int MESSAGE_HISTORY_MAX = 5;
     private int numMessages = 0;
     private String resultMessage[] = new String[MESSAGE_HISTORY_MAX];
-    private int head = 0;
+    private int head = 0; */
 
+    /*
     private int windVelocity;
     public int getWindVelocity() {
         return windVelocity;
@@ -44,7 +45,9 @@ public class MainActivity extends GetMetarActivity {
     public int getWindDirectionV2() {
         return windDirectionV2;
     }
+*/
 
+    /*
     public void setResultMessage(String msg) {
         String newMessage;
         int curr = head;
@@ -70,12 +73,14 @@ public class MainActivity extends GetMetarActivity {
         resultMessageBuffer = newMessage;
         updateResultMessage();
     }
+*/
 
+    /*
     private void updateResultMessage() {
         TextView textView = (TextView) this.findViewById(R.id.result_message);
         textView.setText(resultMessageBuffer);
     }
-
+*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -108,29 +108,45 @@ public class MyGraphicsView extends View {
 
         int windV = activity.getWindVelocity();
         if (windV > 0) {
+            if (activity.isVariableWind()) {
+                int windDir1 = activity.getWindDirectionV1();
+                int windDir2 = activity.getWindDirectionV2();
+                for (int wd = windDir1; wd <= windDir2; wd += 10) {
+                    drawWindDirection1(canvas, wd, cx, cy, 100);
+                }
+            }
             int windDir = activity.getWindDirection();
-            int angle = (450 - windDir) % 360;
-            double rAngle = Math.toRadians(angle);
-            double rAngle2 = Math.toRadians(angle + 15);
-            double rAngle3 = Math.toRadians(angle - 15);
-            int r1 = 70;
-            float dy = (float) Math.sin(rAngle) * r1;
-            float dx = (float) Math.cos(rAngle) * r1;
-            int r2 = 70;
-            float dy2 = (float) Math.sin(rAngle2) * r2;
-            float dx2 = (float) Math.cos(rAngle2) * r2;
-            int r3 = 70;
-            float dy3 = (float) Math.sin(rAngle3) * r2;
-            float dx3 = (float) Math.cos(rAngle3) * r2;
-            canvas.drawLine(cx, cy, cx + dx, cy - dy, paint);
-            Path path = new Path();
-            path.moveTo(cx + dx2, cy - dy2);
-            path.lineTo(cx + dx3, cy - dy3);
-            path.lineTo(cx - dx, cy + dy);
-            paint.setColor(Color.YELLOW);
-            paint.setStyle(Paint.Style.FILL_AND_STROKE);
-            canvas.drawPath(path, paint);
+            drawWindDirection1(canvas, windDir, cx, cy, 255);
         }
+    }
+
+    private void drawWindDirection1(Canvas canvas, int windDir, int cx, int cy, int alpha) {
+        Paint paint = new Paint();
+        //paint.setStyle(Paint.Style.FILL);
+        //paint.setARGB(200, 200, 255, 100);
+
+        int angle = (450 - windDir) % 360;
+        double rAngle = Math.toRadians(angle);
+        double rAngle2 = Math.toRadians(angle + 15);
+        double rAngle3 = Math.toRadians(angle - 15);
+        int r1 = 70;
+        float dy = (float) Math.sin(rAngle) * r1;
+        float dx = (float) Math.cos(rAngle) * r1;
+        int r2 = 70;
+        float dy2 = (float) Math.sin(rAngle2) * r2;
+        float dx2 = (float) Math.cos(rAngle2) * r2;
+        int r3 = 70;
+        float dy3 = (float) Math.sin(rAngle3) * r2;
+        float dx3 = (float) Math.cos(rAngle3) * r2;
+        //canvas.drawLine(cx, cy, cx + dx, cy - dy, paint);
+        Path path = new Path();
+        path.moveTo(cx + dx2, cy - dy2);
+        path.lineTo(cx + dx3, cy - dy3);
+        path.lineTo(cx - dx, cy + dy);
+        paint.setColor(Color.YELLOW);
+        paint.setStyle(Paint.Style.FILL_AND_STROKE);
+        paint.setAlpha(alpha);
+        canvas.drawPath(path, paint);
     }
 
     @Override
