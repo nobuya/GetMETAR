@@ -83,12 +83,28 @@ public abstract class GetMetarActivity extends Activity {
         windDirectionV2 = wd;
     }
 
+    private int temperature;
+    public int getTemperature() {
+        return temperature;
+    }
+    public void setTemperature(int temp) {
+        temperature = temp;
+    }
+
+    private int dewpoint;
+    public int getDewpoint() {
+        return dewpoint;
+    }
+    public void setDewpoint(int dp) {
+        dewpoint = dp;
+    }
 
 //    abstract int getWindVelocity();
 //    abstract int getWindDirection();
 //    abstract int getWindDirectionV1();
 //    abstract int getWindDirectionV2();
     boolean isVariableWind() {
-        return getWindDirectionV1() != getWindDirectionV2();
+//        return getWindDirectionV1() != getWindDirectionV2();
+        return windDirectionV1 != windDirectionV2;
     }
 }

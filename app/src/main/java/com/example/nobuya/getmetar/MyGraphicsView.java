@@ -37,6 +37,7 @@ public class MyGraphicsView extends View {
         //canvas.drawRect(20, 50, 40, 70, paint);
 
         drawWind(canvas);
+        drawTemperatureAndDewpoint(canvas);
     }
 
     private void drawWind(Canvas canvas) {
@@ -111,9 +112,20 @@ public class MyGraphicsView extends View {
             if (activity.isVariableWind()) {
                 int windDir1 = activity.getWindDirectionV1();
                 int windDir2 = activity.getWindDirectionV2();
-                for (int wd = windDir1; wd <= windDir2; wd += 10) {
-                    drawWindDirection1(canvas, wd, cx, cy, 100);
+                if (windDir1 > windDir2) { // 360V090
+                    for (int wd = windDir1; wd < 360; wd += 10) {
+                        drawWindDirection1(canvas, wd, cx, cy, 100);
+                    }
+                    for (int wd = 0; wd <= windDir2; wd += 10) {
+                        drawWindDirection1(canvas, wd, cx, cy, 100);
+                    }
+                } else {
+                    for (int wd = windDir1; wd <= windDir2; wd += 10) {
+                        drawWindDirection1(canvas, wd, cx, cy, 100);
+                    }
                 }
+//                Toast.makeText(context, "variable wind: " + windDir1 + "/" + windDir2,
+//                        Toast.LENGTH_LONG).show();
             }
             int windDir = activity.getWindDirection();
             if (windDir != 999) // VRBxxKT
@@ -144,10 +156,64 @@ public class MyGraphicsView extends View {
         path.moveTo(cx + dx2, cy - dy2);
         path.lineTo(cx + dx3, cy - dy3);
         path.lineTo(cx - dx, cy + dy);
-        paint.setColor(Color.YELLOW);
+        paint.setColor(Color.CYAN);
         paint.setStyle(Paint.Style.FILL_AND_STROKE);
         paint.setAlpha(alpha);
         canvas.drawPath(path, paint);
+    }
+
+    private void drawTemperatureAndDewpoint(Canvas canvas) {
+        Paint paint = new Paint();
+        paint.setStyle(Paint.Style.FILL);
+
+        int startX = 400;
+        int startY = 300;
+        int width = 5;
+        int height = 4;
+        paint.setColor(Color.WHITE);
+        for (int i = -10; i <= 40; i++) {
+            int x = startX - 2;
+            int y = startY - ((height + 1) * i);
+            int x2 = (i == 0 ? x - 12 : (((i % 10) == 0 )? x - 8 :
+                    ((i % 5) == 0) ? x - 4 : x - 2));
+            canvas.drawRect(x2, y, x, y + height, paint);
+        }
+
+        int textSize = 16;
+        paint.setColor(Color.rgb(255, 255, 255));
+        paint.setAntiAlias(false);
+        paint.setStyle(Paint.Style.FILL_AND_STROKE);
+        paint.setStrokeWidth(2);
+        paint.setTextSize(textSize);
+
+        int ts2 = textSize / 2;
+        canvas.drawText("0", startX - 12 - textSize, startY + ts2, paint);
+        canvas.drawText("10", startX - 12 - textSize - ts2,
+                startY + ts2 - ((height + 1) * 10), paint);
+        canvas.drawText("20", startX - 12 - textSize - ts2,
+                startY + ts2 - ((height + 1) * 20), paint);
+        canvas.drawText("30", startX - 12 - textSize - ts2,
+                startY + ts2 - ((height + 1) * 30), paint);
+        canvas.drawText("-10", startX - 12 - textSize - ts2 - ts2,
+                startY + ts2 - ((height + 1) * -10), paint);
+
+        int temp = activity.getTemperature();
+
+        paint.setARGB(200, 200, 255, 100);
+        paint.setStyle(Paint.Style.FILL);
+        paint.setStrokeWidth(1);
+        for(int i = -10; i <= temp; i++) {
+            int x = startX;
+            int y = startY - ((height + 1) * i);
+            canvas.drawRect(x, y, x + width, y + height, paint);
+        }
+        paint.setARGB(255, 0, 250, 250);
+        int dewpoint = activity.getDewpoint();
+        for(int i = -10; i <= dewpoint; i++) {
+            int x = startX + width + 1;
+            int y = startY - ((height + 1) * i);
+            canvas.drawRect(x, y, x + width, y + height, paint);
+        }
     }
 
     @Override

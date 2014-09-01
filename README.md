@@ -10,6 +10,7 @@ Android App to get METAR message
 2014-09-01
 - added graphics for variable wind direction
 - added Airport DB
+- added temperature/dewpoint meter
 
 2014-08-30
 - changed graphics of wind

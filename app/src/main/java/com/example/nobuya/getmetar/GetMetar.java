@@ -209,6 +209,32 @@ TR VALIGN="top">
         return "???";
     }
 
+    static String getTemperatureAndDewpoint(String metar) {
+        // 012345  012345678
+        // 21/20   M02/M02
+        int len = metar.length();
+        int p = 5;
+        while (p < (len - 4)) {
+            if (metar.charAt(p) == '/') {
+                if (metar.charAt(p - 3) == ' ') {
+                    if (metar.charAt(p + 3) == ' ') {
+                        return metar.substring(p - 2, p + 3); // 21/20
+                    } else if (metar.charAt(p + 4) == ' ' && metar.charAt(p + 1) == 'M') {
+                        return metar.substring(p - 2, p + 4); // 03/M02
+                    }
+                } else if (metar.charAt(p - 3) == 'M' && metar.charAt(p - 4) == ' ') {
+                    if (metar.charAt(p + 3) == ' ') {
+                        return metar.substring(p - 3, p + 3); // M01/01 (invalid...)
+                    } else if (metar.charAt(p + 4) == ' ' && metar.charAt(p + 1) == 'M') {
+                        return metar.substring(p - 3, p + 4); // M02/M02
+                    }
+                }
+            }
+            p++;
+        }
+        return "??/??";
+    }
+
     private final void error(String msg) {
         System.out.println(msg);
         //System.exit(1);

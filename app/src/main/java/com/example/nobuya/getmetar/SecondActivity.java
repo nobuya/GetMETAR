@@ -31,12 +31,15 @@ public class SecondActivity extends GetMetarActivity {
     public void setResultMessage(String msg) {
         super.setResultMessage(msg);
         String windStr = GetMetar.getWind(msg);
-        if (!windStr.equals("???")) {
-            updateGraphics(windStr);
+        String tempStr = GetMetar.getTemperatureAndDewpoint(msg);
+        Toast.makeText(SecondActivity.this, "temp: " + tempStr,
+                    Toast.LENGTH_LONG).show();
+        if (!windStr.equals("???") && !tempStr.equals("??/??")) {
+            updateGraphics(windStr, tempStr);
         }
     }
 
-    private void updateGraphics(String windStr) { // 07011KT
+    private void updateGraphics(String windStr, String tempStr) { // 07011KT, 21/18
         // 01234567   01234567
         // 07011KT    VRB03KT
         int windVelocity = ((windStr.charAt(3) == '0') ?
@@ -67,6 +70,35 @@ public class SecondActivity extends GetMetarActivity {
         }
         setWindDirectionV1(windDirectionV1);
         setWindDirectionV2(windDirectionV2);
+
+        // temperature and dewpoint
+
+        if (tempStr.length() >= 5) {
+            int temperature = 0;
+            int dewpoint = 0;
+            int p = 0;
+            // temperature
+            if (tempStr.charAt(0) == 'M' && tempStr.charAt(3) == '/') { // M02/M02
+                temperature = -((tempStr.charAt(1) - '0') * 10 + (tempStr.charAt(2) - '0'));
+                p = 3;
+            } else if (tempStr.charAt(2) == '/') {
+                temperature = ((tempStr.charAt(0) - '0') * 10 + (tempStr.charAt(1) - '0'));
+                p = 2;
+            } else {
+                temperature = 0;
+            }
+            // dewpoint
+            if (tempStr.charAt(p + 1) == 'M') { // M02/M02
+                dewpoint = -((tempStr.charAt(p + 2) - '0') * 10 + (tempStr.charAt(p + 3) - '0'));
+            } else if (tempStr.charAt(p) == '/') {
+                dewpoint = ((tempStr.charAt(p + 1) - '0') * 10 + (tempStr.charAt(p + 2) - '0'));
+            } else {
+                dewpoint = 0;
+            }
+            setTemperature(temperature);
+            setDewpoint(dewpoint);
+        }
+
         findViewById(R.id.graphics_view).invalidate();
     }
 
