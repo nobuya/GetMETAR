@@ -171,12 +171,18 @@ public class SecondActivity extends GetMetarActivity {
             return true;
         } else if (id == R.id.action_about) {
             Toast.makeText(SecondActivity.this, "About...",
-                    Toast.LENGTH_LONG).show();
+                    Toast.LENGTH_SHORT).show();
             handleAboutMenu();
+            return true;
+        } else if (id == R.id.action_history) {
+            Toast.makeText(SecondActivity.this, "History view ...",
+                    Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(SecondActivity.this, HistoryViewActivity.class);
+            startActivity(intent);
             return true;
         } else if (id == R.id.action_develop) {
             Toast.makeText(SecondActivity.this, "Exit develop mode...",
-                    Toast.LENGTH_LONG).show();
+                    Toast.LENGTH_SHORT).show();
             handleDevelopMenu();
             return true;
         }

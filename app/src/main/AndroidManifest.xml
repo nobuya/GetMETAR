@@ -24,6 +24,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.nobuya.getmetar.MainActivity" />
         </activity>
+        <activity
+            android:name=".HistoryViewActivity"
+            android:label="@string/title_history_view"
+            android:parentActivityName=".SecondActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.nobuya.getmetar.SecondActivity" />
+        </activity>
     </application>
 
     <uses-permission

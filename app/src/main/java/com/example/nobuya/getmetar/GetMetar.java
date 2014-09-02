@@ -181,7 +181,8 @@ TR VALIGN="top">
     static String getDateAndTime(String metar) {
         if (metar.length() >= 13) {
             char c5 = metar.charAt(4);
-            if (c5 == ' ') {
+            char c11 = metar.charAt(11);
+            if (c5 == ' ' && c11 == 'Z') {
                 // 0123456789012
                 // RJTT 212030Z
                 return metar.substring(5, 12);

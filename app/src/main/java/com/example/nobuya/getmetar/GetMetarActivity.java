@@ -25,8 +25,12 @@ public abstract class GetMetarActivity extends Activity {
 
     //abstract void setResultMessage(String msg);
     public void setResultMessage(String msg) {
-        String dateAndTime = GetMetar.getDateAndTime(msg);
-        String cccc = GetMetar.getICAOCode(msg);
+        METARMessage newMsg = new METARMessage(msg);
+        MessageHistory.add(newMsg);
+        //String dateAndTime = GetMetar.getDateAndTime(msg);
+        String dateAndTime = newMsg.getDateAndTime();
+        //String cccc = GetMetar.getICAOCode(msg);
+        String cccc = newMsg.getICAOCode();
         if (prevDateAndTime.equals(dateAndTime) && prevCCCC.equals(cccc)) {
             Toast.makeText(GetMetarActivity.this, "No update message", Toast.LENGTH_LONG).show();
             needUpdate = false;
