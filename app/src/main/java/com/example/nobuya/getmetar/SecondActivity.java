@@ -32,14 +32,16 @@ public class SecondActivity extends GetMetarActivity {
         super.setResultMessage(msg);
         String windStr = GetMetar.getWind(msg);
         String tempStr = GetMetar.getTemperatureAndDewpoint(msg);
+        String qnhStr = GetMetar.getQNH(msg);
         Toast.makeText(SecondActivity.this, "temp: " + tempStr,
                     Toast.LENGTH_LONG).show();
         if (!windStr.equals("???") && !tempStr.equals("??/??")) {
-            updateGraphics(windStr, tempStr);
+            updateGraphics(windStr, tempStr, qnhStr);
         }
     }
 
-    private void updateGraphics(String windStr, String tempStr) { // 07011KT, 21/18
+    // 07011KT, 21/18, Q1020
+    private void updateGraphics(String windStr, String tempStr, String qnhStr) {
         // 01234567   01234567
         // 07011KT    VRB03KT
         int windVelocity = ((windStr.charAt(3) == '0') ?
@@ -72,7 +74,6 @@ public class SecondActivity extends GetMetarActivity {
         setWindDirectionV2(windDirectionV2);
 
         // temperature and dewpoint
-
         if (tempStr.length() >= 5) {
             int temperature = 0;
             int dewpoint = 0;
@@ -97,6 +98,18 @@ public class SecondActivity extends GetMetarActivity {
             }
             setTemperature(temperature);
             setDewpoint(dewpoint);
+        }
+
+        // altimeter setting (QNH)
+        if (qnhStr.length() >= 5) { // Q1020
+            int qnh = 1000;
+            if (qnhStr.charAt(0) == 'Q') {
+                qnh = (((qnhStr.charAt(1) - '0') * 1000) +
+                        ((qnhStr.charAt(2) - '0') * 100) +
+                        ((qnhStr.charAt(3) - '0') * 10) +
+                        (qnhStr.charAt(4) - '0'));
+            }
+            setQNH(qnh);
         }
 
         findViewById(R.id.graphics_view).invalidate();

@@ -38,6 +38,7 @@ public class MyGraphicsView extends View {
 
         drawWind(canvas);
         drawTemperatureAndDewpoint(canvas);
+        drawAltimeterSetting(canvas);
     }
 
     private void drawWind(Canvas canvas) {
@@ -81,7 +82,7 @@ public class MyGraphicsView extends View {
 
         // Wind Direction
         int cx = 200;
-        int cy = 180;
+        int cy = 220;
         int r = 80;
         int w = 40;
         paint.setAntiAlias(false);
@@ -149,8 +150,8 @@ public class MyGraphicsView extends View {
         float dy2 = (float) Math.sin(rAngle2) * r2;
         float dx2 = (float) Math.cos(rAngle2) * r2;
         int r3 = 70;
-        float dy3 = (float) Math.sin(rAngle3) * r2;
-        float dx3 = (float) Math.cos(rAngle3) * r2;
+        float dy3 = (float) Math.sin(rAngle3) * r3;
+        float dx3 = (float) Math.cos(rAngle3) * r3;
         //canvas.drawLine(cx, cy, cx + dx, cy - dy, paint);
         Path path = new Path();
         path.moveTo(cx + dx2, cy - dy2);
@@ -212,6 +213,61 @@ public class MyGraphicsView extends View {
         for(int i = -10; i <= dewpoint; i++) {
             int x = startX + width + 1;
             int y = startY - ((height + 1) * i);
+            canvas.drawRect(x, y, x + width, y + height, paint);
+        }
+    }
+
+    // QNH
+    private void drawAltimeterSetting(Canvas canvas) {
+        Paint paint = new Paint();
+        paint.setStyle(Paint.Style.FILL);
+
+        int startX = 480;
+        int startY = 250;
+        int originQNH = 1000;
+        int width = 5;
+        int height = 4;
+        paint.setColor(Color.WHITE);
+        for (int i = 980; i <= 1030; i++) {
+            int x = startX - 2;
+            int y = startY - ((height + 1) * i) + (height + 1) * originQNH;
+            int x2 = (i == 0 ? x - 12 : (((i % 10) == 0 )? x - 8 :
+                    ((i % 5) == 0) ? x - 4 : x - 2));
+            canvas.drawRect(x2, y, x, y + height, paint);
+        }
+
+        int textSize = 16;
+        paint.setColor(Color.rgb(255, 255, 255));
+        paint.setAntiAlias(false);
+        paint.setStyle(Paint.Style.FILL_AND_STROKE);
+        paint.setStrokeWidth(2);
+        paint.setTextSize(textSize);
+
+        int ts2 = textSize / 2;
+        int tx0 = startX - 24;
+        int y0 = startY + ((height + 1) * (originQNH - 980));
+        canvas.drawText("980", tx0 - textSize, y0 + ts2, paint);
+        canvas.drawText("990", tx0 - textSize,
+                y0 + ts2 - ((height + 1) * 10), paint);
+        canvas.drawText("1000", tx0 - textSize - ts2,
+                y0 + ts2 - ((height + 1) * 20), paint);
+        canvas.drawText("1010", tx0 - textSize - ts2,
+                y0 + ts2 - ((height + 1) * 30), paint);
+        canvas.drawText("1020", tx0 - textSize - ts2,
+                y0 + ts2 - ((height + 1) * 40), paint);
+        canvas.drawText("1030", tx0 - textSize - ts2,
+                y0 + ts2 - ((height + 1) * 50), paint);
+
+
+        int qnh = activity.getQNH();
+        if (qnh < 980) return;
+
+        paint.setARGB(200, 200, 255, 100);
+        paint.setStyle(Paint.Style.FILL);
+        paint.setStrokeWidth(1);
+        for(int i = 980; i <= qnh; i++) {
+            int x = startX;
+            int y = startY - ((height + 1) * i) + ((height + 1) * originQNH);
             canvas.drawRect(x, y, x + width, y + height, paint);
         }
     }

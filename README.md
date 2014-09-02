@@ -7,6 +7,10 @@ Android App to get METAR message
 
 (History)
 ---------
+
+2014-09-02
+- added graphics for altimeter setting (QNH)
+
 2014-09-01
 - added graphics for variable wind direction
 - added Airport DB

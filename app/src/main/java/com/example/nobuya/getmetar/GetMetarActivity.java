@@ -99,6 +99,15 @@ public abstract class GetMetarActivity extends Activity {
         dewpoint = dp;
     }
 
+    private int altimeterSetting = 1013; // QNH
+    public int getQNH() {
+        return altimeterSetting;
+    }
+    public void setQNH(int qnh) {
+        altimeterSetting = qnh;
+    }
+
+
 //    abstract int getWindVelocity();
 //    abstract int getWindDirection();
 //    abstract int getWindDirectionV1();

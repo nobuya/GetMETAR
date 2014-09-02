@@ -235,6 +235,20 @@ TR VALIGN="top">
         return "??/??";
     }
 
+    // altimeter setting (QNH) ... Q1020
+    static String getQNH(String metar) {
+        int len = metar.length();
+        int p = 5;
+        while (p < (len - 5)) {
+            if (metar.charAt(p) == 'Q' && metar.charAt(p - 1) == ' ' &&
+                    metar.charAt(p + 5) == ' ') {
+                return metar.substring(p, p + 5); // Q1020
+            }
+            p++;
+        }
+        return "???";
+    }
+
     private final void error(String msg) {
         System.out.println(msg);
         //System.exit(1);
