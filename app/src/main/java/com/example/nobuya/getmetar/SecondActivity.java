@@ -30,13 +30,15 @@ public class SecondActivity extends GetMetarActivity {
     @Override
     public void setResultMessage(String msg) {
         super.setResultMessage(msg);
-        String windStr = GetMetar.getWind(msg);
-        String tempStr = GetMetar.getTemperatureAndDewpoint(msg);
-        String qnhStr = GetMetar.getQNH(msg);
-        Toast.makeText(SecondActivity.this, "temp: " + tempStr,
-                    Toast.LENGTH_LONG).show();
-        if (!windStr.equals("???") && !tempStr.equals("??/??")) {
-            updateGraphics(windStr, tempStr, qnhStr);
+        if (isNeedUpdate()) {
+            String windStr = GetMetar.getWind(msg);
+            String tempStr = GetMetar.getTemperatureAndDewpoint(msg);
+            String qnhStr = GetMetar.getQNH(msg);
+            Toast.makeText(SecondActivity.this, "temp: " + tempStr,
+                    Toast.LENGTH_SHORT).show();
+            if (!windStr.equals("???") && !tempStr.equals("??/??")) {
+                updateGraphics(windStr, tempStr, qnhStr);
+            }
         }
     }
 
@@ -149,7 +151,7 @@ public class SecondActivity extends GetMetarActivity {
         String msg = "Getting " + cccc + "...";
         Toast.makeText(SecondActivity.this,
                 msg,
-                Toast.LENGTH_LONG).show();
+                Toast.LENGTH_SHORT).show();
     }
 
     @Override

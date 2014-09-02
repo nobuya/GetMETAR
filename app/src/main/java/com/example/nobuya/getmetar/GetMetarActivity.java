@@ -3,6 +3,7 @@ package com.example.nobuya.getmetar;
 import android.app.Activity;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Created by nobuya on 2014/08/29.
@@ -15,8 +16,29 @@ public abstract class GetMetarActivity extends Activity {
     protected String resultMessage[] = new String[MESSAGE_HISTORY_MAX];
     protected int head = 0;
 
+    private String prevDateAndTime = "000000Z"; // dummy
+    private String prevCCCC = "____"; // dummy
+    private boolean needUpdate = false;
+    public boolean isNeedUpdate() {
+        return needUpdate;
+    }
+
     //abstract void setResultMessage(String msg);
     public void setResultMessage(String msg) {
+        String dateAndTime = GetMetar.getDateAndTime(msg);
+        String cccc = GetMetar.getICAOCode(msg);
+        if (prevDateAndTime.equals(dateAndTime) && prevCCCC.equals(cccc)) {
+            Toast.makeText(GetMetarActivity.this, "No update message", Toast.LENGTH_LONG).show();
+            needUpdate = false;
+        } else {
+            needUpdate = true;
+            setResultMessage1(msg);
+        }
+        prevDateAndTime = dateAndTime;
+        prevCCCC = cccc;
+    }
+
+    private void setResultMessage1(String msg) {
         String newMessage;
         int curr = head;
         resultMessage[head++] = msg;

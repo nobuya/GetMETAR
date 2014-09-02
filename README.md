@@ -10,6 +10,7 @@ Android App to get METAR message
 
 2014-09-02
 - added graphics for altimeter setting (QNH)
+- added update control logic
 
 2014-09-01
 - added graphics for variable wind direction
