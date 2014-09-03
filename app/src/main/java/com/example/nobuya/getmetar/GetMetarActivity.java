@@ -26,6 +26,7 @@ public abstract class GetMetarActivity extends Activity {
     //abstract void setResultMessage(String msg);
     public void setResultMessage(String msg) {
         METARMessage newMsg = new METARMessage(msg);
+        MessageHistory.init(this);
         MessageHistory.add(newMsg);
         //String dateAndTime = GetMetar.getDateAndTime(msg);
         String dateAndTime = newMsg.getDateAndTime();

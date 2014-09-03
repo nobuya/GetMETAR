@@ -8,6 +8,11 @@ Android App to get METAR message
 (History)
 ---------
 
+(version 0.1.0a)
+
+2014-09-03
+- added History database
+
 2014-09-02
 - added graphics for altimeter setting (QNH)
 - added update control logic

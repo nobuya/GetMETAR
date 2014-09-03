@@ -28,4 +28,5 @@ public class METARMessage {
     public String getICAOCode() {
         return ICAOCode;
     }
+    public String getMessage() { return message; }
 }
