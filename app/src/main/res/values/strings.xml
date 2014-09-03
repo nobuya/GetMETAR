@@ -9,6 +9,7 @@
     <string name="action_history">History</string>
     <string name="metar_at">METAR at:</string>
     <string name="result_message">(result)</string>
+    <string name="result_message2">(result2)</string>
     <string name="title_activity_second">GetMETAR (2nd Activity)</string>
     <string name="title_history_view">History View </string>
 </resources>

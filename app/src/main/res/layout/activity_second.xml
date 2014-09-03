@@ -77,15 +77,31 @@
         <TextView
             android:text="@string/result_message"
             android:layout_width="match_parent"
-            android:height="240dp"
+            android:height="140dp"
             android:singleLine="false"
-            android:maxLines="10"
+            android:maxLines="5"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/result_message"
             android:layout_alignBottom="@+id/textView"
             android:layout_span="4"/>
 
 
+    </TableRow>
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:longClickable="false"
+        android:measureWithLargestChild="false">
+        <TextView
+            android:text="@string/result_message2"
+            android:layout_width="match_parent"
+            android:height="100dp"
+            android:singleLine="false"
+            android:maxLines="4"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/result_message2"
+            android:layout_alignBottom="@+id/textView"
+            android:layout_span="4"/>
     </TableRow>
     <TableRow
         android:layout_width="match_parent"

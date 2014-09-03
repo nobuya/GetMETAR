@@ -26,11 +26,15 @@ public class SecondActivity extends GetMetarActivity {
     private String resultMessage[] = new String[MESSAGE_HISTORY_MAX];
     private int head = 0;
 */
+    private String resultMessage2;
 
     @Override
     public void setResultMessage(String msg) {
+        String prevMessage = resultMessage;
         super.setResultMessage(msg);
         if (isNeedUpdate()) {
+            resultMessage2 = prevMessage;
+            updateResultMessage2();
             String windStr = GetMetar.getWind(msg);
             String tempStr = GetMetar.getTemperatureAndDewpoint(msg);
             String qnhStr = GetMetar.getQNH(msg);
@@ -40,6 +44,11 @@ public class SecondActivity extends GetMetarActivity {
                 updateGraphics(windStr, tempStr, qnhStr);
             }
         }
+    }
+
+    private void updateResultMessage2() {
+        TextView textView = (TextView) this.findViewById(R.id.result_message2);
+        textView.setText(resultMessage2);
     }
 
     // 07011KT, 21/18, Q1020
@@ -125,10 +134,13 @@ public class SecondActivity extends GetMetarActivity {
         // enable scrolling result message area
         TextView textView = (TextView)findViewById(R.id.result_message);
         textView.setMovementMethod(ScrollingMovementMethod.getInstance());
+        TextView textView2 = (TextView)findViewById(R.id.result_message2);
+        textView2.setMovementMethod(ScrollingMovementMethod.getInstance());
 
         editTextCCCC = (EditText)findViewById(R.id.editTextCCCC);
-        resultMessageBuffer = "(message)";
-
+//        resultMessageBuffer = "(message)";
+        resultMessage = "(message)";
+        resultMessage2 = "(previous message)";
     }
 
     public void onClick(View view) {
