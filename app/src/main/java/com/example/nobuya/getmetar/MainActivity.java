@@ -130,12 +130,17 @@ public class MainActivity extends GetMetarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Settings.init(this);
+        String defaultCCCC = Settings.getDefaultCCCC();
         // enable scrolling result message area
         TextView textView = (TextView)findViewById(R.id.result_message);
         textView.setMovementMethod(ScrollingMovementMethod.getInstance());
 
         editTextCCCC = (EditText)findViewById(R.id.editTextCCCC);
+        editTextCCCC.setHint(defaultCCCC);
+        editTextCCCC.setText(defaultCCCC);
         resultMessageBuffer = "(message)";
+
     }
 
     public void onClick(View view) {
@@ -170,21 +175,30 @@ public class MainActivity extends GetMetarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
+            Toast.makeText(MainActivity.this, "Settings...",
+                    Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(MainActivity.this,
+                    SettingsActivity.class);
+            startActivity(intent);
             return true;
         } else if (id == R.id.action_about) {
             Toast.makeText(MainActivity.this, "About...",
-                    Toast.LENGTH_LONG).show();
+                    Toast.LENGTH_SHORT).show();
             handleAboutMenu();
             return true;
         } else if (id == R.id.action_debug) {
-            Toast.makeText(MainActivity.this, "Debug...",
-                    Toast.LENGTH_LONG).show();
-            //handleDebugMenu();
+            if (Settings.getDebugMode()) {
+                Toast.makeText(MainActivity.this, "Debug mode ...",
+                        Toast.LENGTH_SHORT).show();
+                //handleDebugMenu();
+            }
             return true;
         } else if (id == R.id.action_develop) {
-            Toast.makeText(MainActivity.this, "Develop...",
-                    Toast.LENGTH_LONG).show();
-            handleDevelopMenu();
+            if (Settings.getDevelopMode()) {
+                Toast.makeText(MainActivity.this, "Develop mode ...",
+                        Toast.LENGTH_SHORT).show();
+                handleDevelopMenu();
+            }
             return true;
         }
         return super.onOptionsItemSelected(item);

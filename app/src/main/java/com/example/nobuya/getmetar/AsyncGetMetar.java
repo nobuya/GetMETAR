@@ -25,7 +25,7 @@ public class AsyncGetMetar extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String result) { // executed by Main Thread
         String msg = "RESULT: " + result;
-        Toast.makeText(this.activity, msg, Toast.LENGTH_LONG).show();
+        Toast.makeText(this.activity, msg, Toast.LENGTH_SHORT).show();
 //        TextView textView = (TextView)activity.findViewById(R.id
 //                .result_message);
 //        textView.setText(result);

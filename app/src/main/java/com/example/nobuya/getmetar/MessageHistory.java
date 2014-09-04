@@ -27,6 +27,7 @@ public class MessageHistory {
         if (!isInitialized) {
             createDatabase(context);
             readDB();
+            isInitialized = true;
         }
     }
 

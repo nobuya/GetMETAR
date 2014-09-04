@@ -47,8 +47,9 @@ public class AirportDB {
 
     public static String getAirportText(String cccc) {
         String result = "???";
+        String cccc2 = cccc.toLowerCase();
         for (AirportInfo info: AirportInfo.values()) {
-            if (cccc.equals(info.name)) {
+            if (cccc2.equals(info.name)) {
                 return info.text;
             }
         }

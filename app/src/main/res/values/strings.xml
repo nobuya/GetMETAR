@@ -12,4 +12,5 @@
     <string name="result_message2">(result2)</string>
     <string name="title_activity_second">GetMETAR (2nd Activity)</string>
     <string name="title_history_view">History View </string>
+    <string name="title_settings">Settings</string>
 </resources>

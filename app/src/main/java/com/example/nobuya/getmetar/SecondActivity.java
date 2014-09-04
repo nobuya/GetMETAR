@@ -33,6 +33,7 @@ public class SecondActivity extends GetMetarActivity {
         String prevMessage = resultMessage;
         super.setResultMessage(msg);
         if (isNeedUpdate()) {
+            updateMessageTitle(msg);
             resultMessage2 = prevMessage;
             updateResultMessage2();
             String windStr = GetMetar.getWind(msg);
@@ -46,7 +47,20 @@ public class SecondActivity extends GetMetarActivity {
         }
     }
 
+    private void updateMessageTitle(String msg) {
+        String cccc = GetMetar.getICAOCode(msg);
+        String airportText = AirportDB.getAirportText(cccc);
+        TextView textView = (TextView)findViewById(R.id
+                .message1_title);
+        textView.setText("--- " +  airportText + " Airport " +
+                "------------------------------------------------------");
+    }
+
     private void updateResultMessage2() {
+        String cccc = GetMetar.getICAOCode(resultMessage2);
+//        String airportText = AirportDB.getAirportText(cccc);
+//        TextView textView1 = (TextView)findViewById(R.id.message2_title);
+//        textView1.setText("--- (" +  airportText + ") ----------");
         TextView textView = (TextView) this.findViewById(R.id.result_message2);
         textView.setText(resultMessage2);
     }
@@ -131,6 +145,7 @@ public class SecondActivity extends GetMetarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
 
+        String defaultCCCC = Settings.getDefaultCCCC();
         // enable scrolling result message area
         TextView textView = (TextView)findViewById(R.id.result_message);
         textView.setMovementMethod(ScrollingMovementMethod.getInstance());
@@ -138,6 +153,11 @@ public class SecondActivity extends GetMetarActivity {
         textView2.setMovementMethod(ScrollingMovementMethod.getInstance());
 
         editTextCCCC = (EditText)findViewById(R.id.editTextCCCC);
+        editTextCCCC.setHint(defaultCCCC);
+        editTextCCCC.setText(defaultCCCC);
+        String airportText = AirportDB.getAirportText(defaultCCCC);
+        TextView textView3 = (TextView)findViewById(R.id.airport_text);
+        textView3.setText(airportText);
 //        resultMessageBuffer = "(message)";
         resultMessage = "(message)";
         resultMessage2 = "(previous message)";
@@ -154,7 +174,7 @@ public class SecondActivity extends GetMetarActivity {
     private void getMetar() {
         String cccc = editTextCCCC.getText().toString();
         String airportText = AirportDB.getAirportText(cccc);
-        Intent intent = getIntent();
+        //Intent intent = getIntent();
         TextView textView = (TextView)findViewById(R.id.airport_text);
         textView.setText(airportText);
         //
@@ -180,6 +200,10 @@ public class SecondActivity extends GetMetarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
+            Toast.makeText(SecondActivity.this, "Settings...",
+                    Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(SecondActivity.this, SettingsActivity.class);
+            startActivity(intent);
             return true;
         } else if (id == R.id.action_about) {
             Toast.makeText(SecondActivity.this, "About...",
