@@ -15,17 +15,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /**
- * Created by nobuya on 2014/08/29.
+ * Created by nobuya on 2014/09/05.
  */
-public class SecondActivity extends GetMetarActivity {
-/*
-    private EditText editTextCCCC;
-    private String resultMessageBuffer;
-    private static int MESSAGE_HISTORY_MAX = 5;
-    private int numMessages = 0;
-    private String resultMessage[] = new String[MESSAGE_HISTORY_MAX];
-    private int head = 0;
-*/
+public class METARActivity extends GetMetarActivity {
+    /*
+        private EditText editTextCCCC;
+        private String resultMessageBuffer;
+        private static int MESSAGE_HISTORY_MAX = 5;
+        private int numMessages = 0;
+        private String resultMessage[] = new String[MESSAGE_HISTORY_MAX];
+        private int head = 0;
+    */
     private String resultMessage2;
 
     @Override
@@ -40,7 +40,7 @@ public class SecondActivity extends GetMetarActivity {
             String windStr = GetMetar.getWind(msg);
             String tempStr = GetMetar.getTemperatureAndDewpoint(msg);
             String qnhStr = GetMetar.getQNH(msg);
-            Toast.makeText(SecondActivity.this, "temp: " + tempStr,
+            Toast.makeText(METARActivity.this, "temp: " + tempStr,
                     Toast.LENGTH_SHORT).show();
             if (!windStr.equals("???") && !tempStr.equals("??/??")) {
                 updateGraphics(windStr, tempStr, qnhStr);
@@ -200,7 +200,7 @@ public class SecondActivity extends GetMetarActivity {
         AsyncGetMetar asyncGetMetar = new AsyncGetMetar(this);
         asyncGetMetar.execute(cccc);
         String msg = "Getting " + cccc + "...";
-        Toast.makeText(SecondActivity.this,
+        Toast.makeText(METARActivity.this,
                 msg,
                 Toast.LENGTH_SHORT).show();
     }
@@ -219,31 +219,24 @@ public class SecondActivity extends GetMetarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
-            Toast.makeText(SecondActivity.this, "Settings...",
+            Toast.makeText(METARActivity.this, "Settings...",
                     Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(SecondActivity.this, SettingsActivity.class);
+            Intent intent = new Intent(METARActivity.this, SettingsActivity.class);
             startActivity(intent);
             return true;
         } else if (id == R.id.action_about) {
-            Toast.makeText(SecondActivity.this, "About...",
+            Toast.makeText(METARActivity.this, "About...",
                     Toast.LENGTH_SHORT).show();
             handleAboutMenu();
             return true;
         } else if (id == R.id.action_history) {
-            Toast.makeText(SecondActivity.this, "History view ...",
+            Toast.makeText(METARActivity.this, "History view ...",
                     Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(SecondActivity.this, HistoryViewActivity.class);
-            startActivity(intent);
-            return true;
-        } else if (id == R.id.action_history1) {
-            Toast.makeText(SecondActivity.this, "History1 view ...",
-                    Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(SecondActivity.this,
-                    History1Activity.class);
+            Intent intent = new Intent(METARActivity.this, HistoryViewActivity.class);
             startActivity(intent);
             return true;
         } else if (id == R.id.action_develop) {
-            Toast.makeText(SecondActivity.this, "Exit develop mode...",
+            Toast.makeText(METARActivity.this, "Exit develop mode...",
                     Toast.LENGTH_SHORT).show();
             handleDevelopMenu();
             return true;
@@ -254,7 +247,7 @@ public class SecondActivity extends GetMetarActivity {
     private PopupWindow popupWindow;
 
     private void handleAboutMenu() {
-        popupWindow = new PopupWindow(SecondActivity.this);
+        popupWindow = new PopupWindow(METARActivity.this);
         View popupView = getLayoutInflater().inflate(R.layout.popup_layout, null);
         popupView.findViewById(R.id.close_button).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -282,7 +275,7 @@ public class SecondActivity extends GetMetarActivity {
     }
 
     private void handleDevelopMenu() {
-        Intent intent = new Intent(SecondActivity.this, MainActivity.class);
+        Intent intent = new Intent(METARActivity.this, MainActivity.class);
         startActivity(intent);
     }
 

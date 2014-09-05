@@ -47,7 +47,7 @@ public abstract class GetMetarActivity extends Activity {
         updateResultMessage();
     }
 
-    private void updateResultMessage() {
+    protected void updateResultMessage() {
         TextView textView = (TextView) this.findViewById(R.id.result_message);
         textView.setText(resultMessage);
     }

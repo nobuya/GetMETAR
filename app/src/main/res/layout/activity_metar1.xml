@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:stretchColumns="1"
+        android:layout_marginTop="0dp"
+        >
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:longClickable="false"
+            android:layout_weight="1"
+            android:measureWithLargestChild="false">
+
+            <TextView
+                android:text="@string/metar_at"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="1dp"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:id="@+id/metar_at"
+                android:layout_gravity="center_vertical"
+                />
+
+            <TextView
+                android:id="@+id/cccc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:height="40dp"
+                android:width="50dp"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="rjtt"
+                />
+            <TextView
+                android:id="@+id/airport_text"
+                android:text="Tokyo Int'l"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:height="40dp"
+                android:width="140dp"
+                />
+
+            <Button
+                android:id="@+id/button_get"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Get"
+                android:layout_marginLeft="15dp"
+                android:onClick="onClick"
+                />
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="----------------------------------------------------------"
+                android:layout_width="fill_parent"
+                android:layout_height="24dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/message1_title"
+                android:layout_gravity="center_vertical"
+                android:layout_span="4"
+                android:maxLines="1"
+                />
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:longClickable="false"
+            android:measureWithLargestChild="false">
+            <TextView
+                android:text="@string/result_message"
+                android:layout_width="match_parent"
+                android:height="130dp"
+                android:singleLine="false"
+                android:maxLines="6"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/result_message"
+                android:layout_alignBottom="@+id/textView"
+                android:layout_span="4"/>
+
+
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="--- Previous message ---------------------------------------------------------------"
+                android:layout_width="fill_parent"
+                android:layout_height="24dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/message2_title"
+                android:layout_gravity="center_vertical"
+                android:maxLines="1"
+                android:layout_span="4"
+                />
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:longClickable="false"
+            android:measureWithLargestChild="false">
+            <TextView
+                android:text="@string/result_message2"
+                android:layout_width="match_parent"
+                android:height="100dp"
+                android:singleLine="false"
+                android:maxLines="5"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/result_message2"
+                android:layout_alignBottom="@+id/textView"
+                android:layout_span="4"/>
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:longClickable="false">
+
+            <LinearLayout
+                android:id="@+id/layout1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_span="4">
+                <com.example.nobuya.getmetar.MyGraphicsView
+                    android:id="@+id/graphics_view"
+                    android:layout_width="fill_parent"
+                    android:layout_height="200dp"/>
+            </LinearLayout>
+        </TableRow>
+    </TableLayout>
+
+</LinearLayout>

@@ -39,6 +39,22 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.nobuya.getmetar.SecondActivity" />
         </activity>
+        <activity
+            android:name=".METARActivity1"
+            android:label="@string/title_activity1"
+            android:parentActivityName=".METARActivity1" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.nobuya.getmetar.SecondActivity" />
+        </activity>
+        <activity
+            android:name=".History1Activity"
+            android:label="@string/title_history1_activity"
+            android:parentActivityName=".History1Activity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.nobuya.getmetar.SecondActivity" />
+        </activity>
     </application>
 
     <uses-permission

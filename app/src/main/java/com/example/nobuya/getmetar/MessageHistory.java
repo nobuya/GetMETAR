@@ -16,17 +16,24 @@ import java.util.LinkedList;
  */
 public class MessageHistory {
     private static LinkedList<METARMessage> messageList = new LinkedList<METARMessage>();
+    private static LinkedList<String> ccccList = new LinkedList<String>();
     private static HashMap<String, LinkedList<METARMessage>> mapDateAndTime
             = new HashMap<String, LinkedList<METARMessage>>();
     private static HashMap<String, LinkedList<METARMessage>> mapCCCC
             = new HashMap<String, LinkedList<METARMessage>>();
     private static int numMessages = 0;
     private static boolean isInitialized = false;
+    private static METARMessage latestMessage = null;
+    private static METARMessage previousMessage = null;
 
     public static void init(Context context) {
         if (!isInitialized) {
             createDatabase(context);
             readDB();
+            if (messageList.size() > 0) {
+                latestMessage = messageList.get(0);
+                previousMessage = latestMessage;
+            }
             isInitialized = true;
         }
     }
@@ -36,6 +43,8 @@ public class MessageHistory {
         //String cccc = msg.getICAOCode();
         msg.setNumber(++numMessages);
         messageList.addFirst(msg);
+        previousMessage = latestMessage;
+        latestMessage = msg;
         //
         registerDB(msg);
         addList(msg);
@@ -44,6 +53,7 @@ public class MessageHistory {
     private static void addList(METARMessage msg) {
         String dateAndTime = msg.getDateAndTime();
         String cccc = msg.getICAOCode();
+        addCCCCList(cccc);
 
         LinkedList<METARMessage> list1 = mapDateAndTime.get(dateAndTime);
         if (list1 == null) {
@@ -64,6 +74,22 @@ public class MessageHistory {
         }
     }
 
+    private static void addCCCCList(String cccc) {
+        if (cccc.equals("????")) return;
+        if (ccccList.contains(cccc)) {
+            ccccList.remove(cccc);
+        }
+        ccccList.addFirst(cccc);
+    }
+
+    public static METARMessage getLatestMessage() {
+        return latestMessage;
+    }
+
+    public static METARMessage getPreviousMessage() {
+        return previousMessage;
+    }
+
     public static String[] getHistoryArray(int numHistory) {
         int size = (messageList.size() > numHistory) ? numHistory : messageList.size();
         String [] strArray = new String[size];
@@ -76,6 +102,33 @@ public class MessageHistory {
             j++;
         }
         return strArray;
+    }
+
+    public static String[] getAirportHistoryArray(int num) {
+        int size = (ccccList.size() > num) ? num : ccccList.size();
+        String [] strArray = new String[size];
+        int j = 0;
+        Iterator<String> i = ccccList.iterator();
+        while (i.hasNext() && j < size) {
+            String cccc = i.next();
+            strArray[j] = "(" + (j + 1) + ") " + cccc;
+            j++;
+        }
+        return strArray;
+    }
+
+    public static String getCCCC(int location) {
+        return ccccList.get(location);
+    }
+
+    public static METARMessage getAirportHistory(String cccc, int pos) {
+        LinkedList<METARMessage> list = mapCCCC.get(cccc);
+        return list.get(pos);
+    }
+
+    public static int getAirportHistorySize(String cccc) {
+        LinkedList list = mapCCCC.get(cccc);
+        return list.size();
     }
 
     private static final String DATABASE_NAME = "msg_history.db";

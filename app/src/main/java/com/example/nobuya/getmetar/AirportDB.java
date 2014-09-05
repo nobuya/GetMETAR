@@ -24,6 +24,9 @@ public class AirportDB {
         RJOM("rjom", 60, 33.827222, 132.699722, "Matsuyama"),
         RJSS("rjss", 60, 38.136944, 140.9225,   "Sendai"),
         RJSC("rjsc", 60, 38.411667, 140.371111, "Yamagata"),
+        RJSN("rjsn", 60, 37.955833, 139.120556, "Niigata"),
+        RJNT("rjnt", 60, 36.648333, 137.1875,   "Toyama"),
+        RJNK("rjnk", 60, 36.393889, 136.4075,   "Komatsu"),
         RJTI("rjti", 60, 35.636111, 139.839444, "Tokyo Heliport"),
         RJCH("rjch", 60, 41.77,     140.821944, "Hakodate");
         //

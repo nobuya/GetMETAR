@@ -10,6 +10,9 @@ Android App to get METAR message
 
 (version 0.1.0a)
 
+2014-09-05
+- added Airport History
+
 2014-09-04
 - added Settings Activity
 

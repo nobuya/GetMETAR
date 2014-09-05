@@ -84,11 +84,13 @@ public class MainActivity extends GetMetarActivity {
         resultMessageBuffer = newMessage;
         updateResultMessage();
     }
-
-    private void updateResultMessage() {
+/*
+    @Override
+    void updateResultMessage() {
         TextView textView = (TextView) this.findViewById(R.id.result_message);
         textView.setText(resultMessageBuffer);
     }
+*/
 
     /*
     public void setResultMessage(String msg) {

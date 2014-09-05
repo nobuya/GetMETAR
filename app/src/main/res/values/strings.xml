@@ -13,4 +13,6 @@
     <string name="title_activity_second">GetMETAR (2nd Activity)</string>
     <string name="title_history_view">History View </string>
     <string name="title_settings">Settings</string>
+    <string name="title_activity1">METAR (1)</string>
+    <string name="title_history1_activity">Airport History</string>
 </resources>

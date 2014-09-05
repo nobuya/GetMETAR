@@ -26,7 +26,7 @@ public class MyGraphicsView extends View {
         super.onDraw(canvas);
 
         Toast.makeText(context, "MyGraphicsView.onDraw...",
-                Toast.LENGTH_LONG).show();
+                Toast.LENGTH_SHORT).show();
 
         //canvas.drawColor(Color.BLUE);
         canvas.drawColor(Color.DKGRAY);
@@ -52,26 +52,40 @@ public class MyGraphicsView extends View {
         // Wind Velocity
         Paint paint = new Paint();
         paint.setStyle(Paint.Style.FILL);
-        paint.setARGB(200, 200, 255, 100);
 
-        int wind = activity.getWindVelocity();
         int startX = 50;
         int startY = 30;
-        int width = 5;
-        int height = 30;
-        for(int i = 0; i < wind; i++) {
-            int x = startX + 10 * i;
+        int width = 3;
+        int height = 15;
+
+        paint.setColor(Color.WHITE);
+        for (int i = 0; i <= 40; i++) {
+            int x = startX + 6 * i;
+            int y = startY + height + 2;
+            int y2 = ((i % 10) == 0 )? y + 6 :
+                    ((i % 5) == 0) ? y + 3 : y + 2;
+            canvas.drawRect(x, y, x + width, y2, paint);
+        }
+        int textSize = 16;
+        paint.setAntiAlias(false);
+        paint.setStyle(Paint.Style.FILL_AND_STROKE);
+        paint.setTextSize(textSize);
+        paint.setStrokeWidth(2);
+        int ts = textSize / 2;
+        int ty = startY + height + 10 + textSize;
+        canvas.drawText(" 0", startX + 6 * 0  - ts, ty, paint);
+        canvas.drawText("10", startX + 6 * 10 - ts, ty, paint);
+        canvas.drawText("20", startX + 6 * 20 - ts, ty, paint);
+        canvas.drawText("30", startX + 6 * 30 - ts, ty, paint);
+        canvas.drawText("40", startX + 6 * 40 - ts, ty, paint);
+
+        int wind = activity.getWindVelocity();
+        paint.setARGB(200, 200, 255, 100);
+        paint.setStrokeWidth(1);
+        for(int i = 0; i <= wind; i++) {
+            int x = startX + 6 * i;
             int y = startY;
             canvas.drawRect(x, y, x + width, y + height, paint);
-        }
-        paint.setColor(Color.WHITE);
-        for (int i = 0; i < 30; i++) {
-            int x = startX + 10 * i;
-            int j = i + 1;
-            int y = startY + height + 2;
-            int y2 = ((j % 10) == 0 )? y + 6 :
-                    ((j % 5) == 0) ? y + 3 : y + 2;
-            canvas.drawRect(x, y, x + width, y2, paint);
         }
     }
 
@@ -195,6 +209,8 @@ public class MyGraphicsView extends View {
                 startY + ts2 - ((height + 1) * 20), paint);
         canvas.drawText("30", startX - 12 - textSize - ts2,
                 startY + ts2 - ((height + 1) * 30), paint);
+        canvas.drawText("40", startX - 12 - textSize - ts2,
+                startY + ts2 - ((height + 1) * 40), paint);
         canvas.drawText("-10", startX - 12 - textSize - ts2 - ts2,
                 startY + ts2 - ((height + 1) * -10), paint);
 

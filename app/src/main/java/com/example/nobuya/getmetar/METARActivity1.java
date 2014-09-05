@@ -15,17 +15,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /**
- * Created by nobuya on 2014/08/29.
+ * Created by nobuya on 2014/09/05.
  */
-public class SecondActivity extends GetMetarActivity {
-/*
-    private EditText editTextCCCC;
-    private String resultMessageBuffer;
-    private static int MESSAGE_HISTORY_MAX = 5;
-    private int numMessages = 0;
-    private String resultMessage[] = new String[MESSAGE_HISTORY_MAX];
-    private int head = 0;
-*/
+public class METARActivity1 extends GetMetarActivity {
+    /*
+        private EditText editTextCCCC;
+        private String resultMessageBuffer;
+        private static int MESSAGE_HISTORY_MAX = 5;
+        private int numMessages = 0;
+        private String resultMessage[] = new String[MESSAGE_HISTORY_MAX];
+        private int head = 0;
+    */
     private String resultMessage2;
 
     @Override
@@ -40,7 +40,7 @@ public class SecondActivity extends GetMetarActivity {
             String windStr = GetMetar.getWind(msg);
             String tempStr = GetMetar.getTemperatureAndDewpoint(msg);
             String qnhStr = GetMetar.getQNH(msg);
-            Toast.makeText(SecondActivity.this, "temp: " + tempStr,
+            Toast.makeText(METARActivity1.this, "temp: " + tempStr,
                     Toast.LENGTH_SHORT).show();
             if (!windStr.equals("???") && !tempStr.equals("??/??")) {
                 updateGraphics(windStr, tempStr, qnhStr);
@@ -150,12 +150,18 @@ public class SecondActivity extends GetMetarActivity {
         findViewById(R.id.graphics_view).invalidate();
     }
 
+    private String cccc;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_second);
+        setContentView(R.layout.activity_metar1);
 
         MessageHistory.init(this);
+
+        Intent intent = getIntent();
+        String cccc = intent.getStringExtra("cccc");
+        this.cccc = cccc;
 
         String defaultCCCC = Settings.getDefaultCCCC();
         // enable scrolling result message area
@@ -164,22 +170,24 @@ public class SecondActivity extends GetMetarActivity {
         TextView textView2 = (TextView)findViewById(R.id.result_message2);
         textView2.setMovementMethod(ScrollingMovementMethod.getInstance());
 
-        editTextCCCC = (EditText)findViewById(R.id.editTextCCCC);
-        editTextCCCC.setHint(defaultCCCC);
-        editTextCCCC.setText(defaultCCCC);
-        String airportText = AirportDB.getAirportText(defaultCCCC);
+        TextView textCCCC = (TextView)findViewById(R.id.cccc);
+        textCCCC.setText(cccc);
+        //editTextCCCC.setHint(defaultCCCC);
+        //editTextCCCC.setText(defaultCCCC);
+
+        String airportText = AirportDB.getAirportText(cccc);
         TextView textView3 = (TextView)findViewById(R.id.airport_text);
         textView3.setText(airportText);
-//        resultMessageBuffer = "(message)";
-        resultMessage = "(message)";
-//        resultMessage2 = "(previous message)";
-        METARMessage previousMessage = MessageHistory.getPreviousMessage();
-        if (previousMessage != null) {
-            resultMessage2 = previousMessage.getMessage();
-            updateResultMessage2();
+        METARMessage mm1 = MessageHistory.getAirportHistory(cccc, 0);
+        resultMessage = mm1.getMessage();
+        updateResultMessage();
+        if (MessageHistory.getAirportHistorySize(cccc) >= 2) {
+            METARMessage mm2 = MessageHistory.getAirportHistory(cccc, 1);
+            resultMessage2 = mm2.getMessage();
         } else {
-            resultMessage2 = "(previous message)";
+            resultMessage2 = "(no previous message)";
         }
+        updateResultMessage2();
     }
 
     public void onClick(View view) {
@@ -191,7 +199,8 @@ public class SecondActivity extends GetMetarActivity {
     }
 
     private void getMetar() {
-        String cccc = editTextCCCC.getText().toString();
+        //String cccc = editTextCCCC.getText().toString();
+        String cccc = this.cccc;
         String airportText = AirportDB.getAirportText(cccc);
         //Intent intent = getIntent();
         TextView textView = (TextView)findViewById(R.id.airport_text);
@@ -200,7 +209,7 @@ public class SecondActivity extends GetMetarActivity {
         AsyncGetMetar asyncGetMetar = new AsyncGetMetar(this);
         asyncGetMetar.execute(cccc);
         String msg = "Getting " + cccc + "...";
-        Toast.makeText(SecondActivity.this,
+        Toast.makeText(METARActivity1.this,
                 msg,
                 Toast.LENGTH_SHORT).show();
     }
@@ -219,31 +228,26 @@ public class SecondActivity extends GetMetarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
-            Toast.makeText(SecondActivity.this, "Settings...",
+            Toast.makeText(METARActivity1.this, "Settings...",
                     Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(SecondActivity.this, SettingsActivity.class);
+            Intent intent = new Intent(METARActivity1.this,
+                    SettingsActivity.class);
             startActivity(intent);
             return true;
         } else if (id == R.id.action_about) {
-            Toast.makeText(SecondActivity.this, "About...",
+            Toast.makeText(METARActivity1.this, "About...",
                     Toast.LENGTH_SHORT).show();
             handleAboutMenu();
             return true;
         } else if (id == R.id.action_history) {
-            Toast.makeText(SecondActivity.this, "History view ...",
+            Toast.makeText(METARActivity1.this, "History view ...",
                     Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(SecondActivity.this, HistoryViewActivity.class);
-            startActivity(intent);
-            return true;
-        } else if (id == R.id.action_history1) {
-            Toast.makeText(SecondActivity.this, "History1 view ...",
-                    Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(SecondActivity.this,
-                    History1Activity.class);
+            Intent intent = new Intent(METARActivity1.this,
+                    HistoryViewActivity.class);
             startActivity(intent);
             return true;
         } else if (id == R.id.action_develop) {
-            Toast.makeText(SecondActivity.this, "Exit develop mode...",
+            Toast.makeText(METARActivity1.this, "Exit develop mode...",
                     Toast.LENGTH_SHORT).show();
             handleDevelopMenu();
             return true;
@@ -254,7 +258,7 @@ public class SecondActivity extends GetMetarActivity {
     private PopupWindow popupWindow;
 
     private void handleAboutMenu() {
-        popupWindow = new PopupWindow(SecondActivity.this);
+        popupWindow = new PopupWindow(METARActivity1.this);
         View popupView = getLayoutInflater().inflate(R.layout.popup_layout, null);
         popupView.findViewById(R.id.close_button).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -282,7 +286,7 @@ public class SecondActivity extends GetMetarActivity {
     }
 
     private void handleDevelopMenu() {
-        Intent intent = new Intent(SecondActivity.this, MainActivity.class);
+        Intent intent = new Intent(METARActivity1.this, MainActivity.class);
         startActivity(intent);
     }
 
