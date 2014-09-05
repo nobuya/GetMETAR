@@ -44,15 +44,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:height="40dp"
-                android:width="140dp"
+                android:width="50dp"
                 />
 
             <Button
-                android:id="@+id/button_get"
+                android:id="@+id/button_newer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Get"
-                android:layout_marginLeft="15dp"
+                android:text="newer"
+                android:layout_marginLeft="5dp"
+                android:onClick="onClick"
+                />
+
+            <Button
+                android:id="@+id/button_older"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="older"
+                android:layout_marginLeft="5dp"
                 android:onClick="onClick"
                 />
         </TableRow>
@@ -66,7 +75,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:id="@+id/message1_title"
                 android:layout_gravity="center_vertical"
-                android:layout_span="4"
+                android:layout_span="5"
                 android:maxLines="1"
                 />
         </TableRow>
@@ -84,7 +93,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:id="@+id/result_message"
                 android:layout_alignBottom="@+id/textView"
-                android:layout_span="4"/>
+                android:layout_span="5"/>
 
 
         </TableRow>
@@ -99,7 +108,7 @@
                 android:id="@+id/message2_title"
                 android:layout_gravity="center_vertical"
                 android:maxLines="1"
-                android:layout_span="4"
+                android:layout_span="5"
                 />
         </TableRow>
         <TableRow
@@ -116,7 +125,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:id="@+id/result_message2"
                 android:layout_alignBottom="@+id/textView"
-                android:layout_span="4"/>
+                android:layout_span="5"/>
         </TableRow>
         <TableRow
             android:layout_width="match_parent"
@@ -127,7 +136,7 @@
                 android:id="@+id/layout1"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_span="4">
+                android:layout_span="5">
                 <com.example.nobuya.getmetar.MyGraphicsView
                     android:id="@+id/graphics_view"
                     android:layout_width="fill_parent"

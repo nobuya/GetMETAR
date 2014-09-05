@@ -180,6 +180,7 @@ public class METARActivity1 extends GetMetarActivity {
         textView3.setText(airportText);
         METARMessage mm1 = MessageHistory.getAirportHistory(cccc, 0);
         resultMessage = mm1.getMessage();
+        updateMessageTitle(resultMessage);
         updateResultMessage();
         if (MessageHistory.getAirportHistorySize(cccc) >= 2) {
             METARMessage mm2 = MessageHistory.getAirportHistory(cccc, 1);
