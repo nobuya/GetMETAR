@@ -39,8 +39,8 @@
                 android:text="rjtt"
                 />
             <TextView
-                android:id="@+id/airport_text"
-                android:text="Tokyo Int'l"
+                android:id="@+id/cur"
+                android:text="\?/\?"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:height="40dp"

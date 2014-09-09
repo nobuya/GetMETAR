@@ -37,14 +37,18 @@ public class METARActivity1 extends GetMetarActivity {
             METARMessage prev = MessageHistory.getPreviousMessage();
             resultMessage2 = prev.getMessage();
             updateResultMessage2();
-            String windStr = GetMetar.getWind(msg);
-            String tempStr = GetMetar.getTemperatureAndDewpoint(msg);
-            String qnhStr = GetMetar.getQNH(msg);
-            Toast.makeText(METARActivity1.this, "temp: " + tempStr,
-                    Toast.LENGTH_SHORT).show();
-            if (!windStr.equals("???") && !tempStr.equals("??/??")) {
-                updateGraphics(windStr, tempStr, qnhStr);
-            }
+            updateGraphics(msg);
+        }
+    }
+
+    private void updateGraphics(String msg) {
+        String windStr = GetMetar.getWind(msg);
+        String tempStr = GetMetar.getTemperatureAndDewpoint(msg);
+        String qnhStr = GetMetar.getQNH(msg);
+//        Toast.makeText(METARActivity1.this, "temp: " + tempStr,
+//                Toast.LENGTH_SHORT).show();
+        if (!windStr.equals("???") && !tempStr.equals("??/??")) {
+            updateGraphics(windStr, tempStr, qnhStr);
         }
     }
 
@@ -151,6 +155,8 @@ public class METARActivity1 extends GetMetarActivity {
     }
 
     private String cccc;
+    private int cur = 0;
+    private int last = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -175,27 +181,86 @@ public class METARActivity1 extends GetMetarActivity {
         //editTextCCCC.setHint(defaultCCCC);
         //editTextCCCC.setText(defaultCCCC);
 
-        String airportText = AirportDB.getAirportText(cccc);
-        TextView textView3 = (TextView)findViewById(R.id.airport_text);
-        textView3.setText(airportText);
-        METARMessage mm1 = MessageHistory.getAirportHistory(cccc, 0);
+        //String airportText = AirportDB.getAirportText(cccc);
+        //TextView textView3 = (TextView)findViewById(R.id.airport_text);
+        //textView3.setText(airportText);
+        last = MessageHistory.getAirportHistorySize(cccc) - 1;
+        TextView textView3 = (TextView)findViewById(R.id.cur);
+        textView3.setText(cur + "/" + last);
+        METARMessage mm1 = MessageHistory.getAirportHistory(cccc, cur);
         resultMessage = mm1.getMessage();
         updateMessageTitle(resultMessage);
         updateResultMessage();
-        if (MessageHistory.getAirportHistorySize(cccc) >= 2) {
-            METARMessage mm2 = MessageHistory.getAirportHistory(cccc, 1);
+        if (last >= cur + 1) {
+            METARMessage mm2 = MessageHistory.getAirportHistory(cccc,
+                    cur + 1);
             resultMessage2 = mm2.getMessage();
         } else {
             resultMessage2 = "(no previous message)";
         }
         updateResultMessage2();
+        updateGraphics(resultMessage);
     }
 
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.button_get: // GET Button
-                getMetar();
+//            case R.id.button_get: // GET Button
+//                getMetar();
+//                break;
+            case R.id.button_newer: // newwer
+                handleNewer();
                 break;
+            case R.id.button_older: // older
+                handleOlder();
+                break;
+
+        }
+    }
+
+    private void handleNewer() {
+        if (cur > 0) {
+            cur -= 1;
+            last = MessageHistory.getAirportHistorySize(cccc) - 1;
+            TextView textView3 = (TextView)findViewById(R.id.cur);
+            textView3.setText(cur + "/" + last);
+            METARMessage mm1 = MessageHistory.getAirportHistory(cccc, cur);
+            resultMessage = mm1.getMessage();
+            updateMessageTitle(resultMessage);
+            updateResultMessage();
+            int next = cur + 1;
+            if (next <= last) {
+                METARMessage mm2 = MessageHistory.getAirportHistory(cccc,
+                        next);
+                resultMessage2 = mm2.getMessage();
+            } else {
+                resultMessage2 = "(no previous message)";
+            }
+            updateResultMessage2();
+            updateGraphics(resultMessage);
+        }
+    }
+
+    private void handleOlder() {
+        last = MessageHistory.getAirportHistorySize(cccc) - 1;
+        if (cur + 1 <= last) {
+            cur += 1;
+            last = MessageHistory.getAirportHistorySize(cccc) - 1;
+            TextView textView3 = (TextView)findViewById(R.id.cur);
+            textView3.setText(cur + "/" + last);
+            METARMessage mm1 = MessageHistory.getAirportHistory(cccc, cur);
+            resultMessage = mm1.getMessage();
+            updateMessageTitle(resultMessage);
+            updateResultMessage();
+            int next = cur + 1;
+            if (next <= last) {
+                METARMessage mm2 = MessageHistory.getAirportHistory(cccc,
+                        next);
+                resultMessage2 = mm2.getMessage();
+            } else {
+                resultMessage2 = "(no previous message)";
+            }
+            updateResultMessage2();
+            updateGraphics(resultMessage);
         }
     }
 
