@@ -10,6 +10,9 @@ Android App to get METAR message
 
 (version 0.1.0a)
 
+2014-09-12
+- added function of checking new message in Airport History View Activity
+
 2014-09-09
 - added Airport History View Activity
 

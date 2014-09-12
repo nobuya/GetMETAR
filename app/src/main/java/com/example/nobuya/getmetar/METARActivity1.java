@@ -28,6 +28,7 @@ public class METARActivity1 extends GetMetarActivity {
     */
     private String resultMessage2;
 
+    /***
     @Override
     public void setResultMessage(String msg) {
         //String prevMessage = resultMessage;
@@ -38,6 +39,30 @@ public class METARActivity1 extends GetMetarActivity {
             resultMessage2 = prev.getMessage();
             updateResultMessage2();
             updateGraphics(msg);
+        }
+    } ***/
+
+    @Override
+    public void setResultMessage(String msg) {
+        String dt0 = GetMetar.getDateAndTime(msg);
+        int cur = 0;
+        METARMessage mm0 = MessageHistory.getAirportHistory(cccc, cur);
+        String newestMessage = mm0.getMessage();
+        String dt1 = GetMetar.getDateAndTime(newestMessage);
+        if (!dt0.equals(dt1)) { // new message is available
+            super.setResultMessage(msg);
+            last = MessageHistory.getAirportHistorySize(cccc) - 1;
+            TextView textView3 = (TextView)findViewById(R.id.cur);
+            textView3.setText(cur + "/" + last);
+            METARMessage mm1 = MessageHistory.getAirportHistory(cccc, cur);
+            resultMessage = mm1.getMessage();
+            updateMessageTitle(resultMessage);
+            updateResultMessage();
+            int next = cur + 1;
+            METARMessage mm2 = MessageHistory.getAirportHistory(cccc, next);
+            resultMessage2 = mm2.getMessage();
+            updateResultMessage2();
+            updateGraphics(resultMessage);
         }
     }
 
@@ -237,7 +262,20 @@ public class METARActivity1 extends GetMetarActivity {
             }
             updateResultMessage2();
             updateGraphics(resultMessage);
+        } else { // check if new message is available
+            checkNewMessage();
         }
+    }
+
+    private void checkNewMessage() {
+        String cccc = this.cccc;
+        //
+        AsyncGetMetar asyncGetMetar = new AsyncGetMetar(this);
+        asyncGetMetar.execute(cccc);
+        String msg = "Checking " + cccc + "...";
+        Toast.makeText(METARActivity1.this,
+                msg,
+                Toast.LENGTH_SHORT).show();
     }
 
     private void handleOlder() {
